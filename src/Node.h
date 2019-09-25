@@ -5,7 +5,8 @@
 
 template <typename PointT, typename Name>
 
-struct Node {
+struct Node
+{
   std::shared_ptr<PointT> data;
   Name id;
   std::shared_ptr<Node> left;

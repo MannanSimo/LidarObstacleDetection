@@ -7,26 +7,36 @@
 #include <vector>
 #include <string>
 
-struct Color {
+struct Color
+{
   float r, g, b;
 
   Color(float setR, float setG, float setB) : r(setR), g(setG), b(setB) {}
 };
 
-struct Vect3 {
+struct Vect3
+{
   double x, y, z;
 
   Vect3(double setX, double setY, double setZ) : x(setX), y(setY), z(setZ) {}
 
-  Vect3 operator+(const Vect3& vec) {
+  Vect3 operator+(const Vect3 &vec)
+  {
     Vect3 result(x + vec.x, y + vec.y, z + vec.z);
     return result;
   }
 };
 
-enum CameraAngle { XY, TopDown, Side, FPS };
+enum CameraAngle
+{
+  XY,
+  TopDown,
+  Side,
+  FPS
+};
 
-struct Car {
+struct Car
+{
   // units in meters
   Vect3 position, dimensions;
 
@@ -40,7 +50,8 @@ struct Car {
         color(setColor),
         name(setName) {}
 
-  void render(pcl::visualization::PCLVisualizer::Ptr& viewer) {
+  void render(pcl::visualization::PCLVisualizer::Ptr &viewer)
+  {
     viewer->addCube(
         position.x - dimensions.x / 2, position.x + dimensions.x / 2,
         position.y - dimensions.y / 2, position.y + dimensions.y / 2,
@@ -70,11 +81,13 @@ struct Car {
         pcl::visualization::PCL_VISUALIZER_OPACITY, 1.0, name + "Top");
   }
 
-  bool inbetween(double point, double center, double range) {
+  bool inbetween(double point, double center, double range)
+  {
     return (center - range <= point) && (center + range >= point);
   }
 
-  bool checkCollision(Vect3 point) {
+  bool checkCollision(Vect3 point)
+  {
     return (inbetween(point.x, position.x, dimensions.x / 2) &&
             inbetween(point.y, position.y, dimensions.y / 2) &&
             inbetween(point.z, position.z + dimensions.z / 3,
@@ -86,20 +99,20 @@ struct Car {
   }
 };
 
-void renderHighway(pcl::visualization::PCLVisualizer::Ptr& viewer);
-void renderRays(pcl::visualization::PCLVisualizer::Ptr& viewer,
-                const Vect3& origin,
-                const pcl::PointCloud<pcl::PointXYZ>::Ptr& cloud);
-void clearRays(pcl::visualization::PCLVisualizer::Ptr& viewer);
-void renderPointCloud(pcl::visualization::PCLVisualizer::Ptr& viewer,
-                      const pcl::PointCloud<pcl::PointXYZ>::Ptr& cloud,
+void renderHighway(pcl::visualization::PCLVisualizer::Ptr &viewer);
+void renderRays(pcl::visualization::PCLVisualizer::Ptr &viewer,
+                const Vect3 &origin,
+                const pcl::PointCloud<pcl::PointXYZ>::Ptr &cloud);
+void clearRays(pcl::visualization::PCLVisualizer::Ptr &viewer);
+void renderPointCloud(pcl::visualization::PCLVisualizer::Ptr &viewer,
+                      const pcl::PointCloud<pcl::PointXYZ>::Ptr &cloud,
                       std::string name, Color color = Color(1, 1, 1));
-void renderPointCloud(pcl::visualization::PCLVisualizer::Ptr& viewer,
-                      const pcl::PointCloud<pcl::PointXYZI>::Ptr& cloud,
+void renderPointCloud(pcl::visualization::PCLVisualizer::Ptr &viewer,
+                      const pcl::PointCloud<pcl::PointXYZI>::Ptr &cloud,
                       std::string name, Color color = Color(-1, -1, -1));
-void renderBox(pcl::visualization::PCLVisualizer::Ptr& viewer, Box box, int id,
+void renderBox(pcl::visualization::PCLVisualizer::Ptr &viewer, Box box, int id,
                Color color = Color(1, 0, 0), float opacity = 1);
-void renderBox(pcl::visualization::PCLVisualizer::Ptr& viewer, BoxQ box, int id,
+void renderBox(pcl::visualization::PCLVisualizer::Ptr &viewer, BoxQ box, int id,
                Color color = Color(1, 0, 0), float opacity = 1);
 
 #endif

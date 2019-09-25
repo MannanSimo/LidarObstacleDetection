@@ -5,11 +5,12 @@
 #include "Node.h"
 
 template <typename PointT, typename TypeName>
-class KDTree {
+class KDTree
+{
   std::shared_ptr<Node<PointT, TypeName>> root;
   std::unordered_map<TypeName, std::shared_ptr<Node<PointT, TypeName>>> nodes;
 
- public:
+public:
   KDTree();
 
   ~KDTree();

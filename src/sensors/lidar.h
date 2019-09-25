@@ -7,7 +7,8 @@
 
 const double pi = 3.1415;
 
-struct Ray {
+struct Ray
+{
   Vect3 origin;
   Vect3 direction;
   Vect3 castPosition;
@@ -26,27 +27,33 @@ struct Ray {
 
   void rayCast(const std::vector<Car> &cars, double minDistance,
                double maxDistance, pcl::PointCloud<pcl::PointXYZ>::Ptr &cloud,
-               double slopeAngle, double sderr) {
+               double slopeAngle, double sderr)
+  {
     castPosition = origin;
     castDistance = 0;
 
     bool collision = false;
 
-    while (!collision && castDistance < maxDistance) {
+    while (!collision && castDistance < maxDistance)
+    {
       castPosition = castPosition + direction;
       castDistance += resolution;
 
       collision = (castPosition.z <= castPosition.x * tan(slopeAngle));
 
-      if (!collision && castDistance < maxDistance) {
-        for (Car car : cars) {
+      if (!collision && castDistance < maxDistance)
+      {
+        for (Car car : cars)
+        {
           collision |= car.checkCollision(castPosition);
-          if (collision) break;
+          if (collision)
+            break;
         }
       }
     }
 
-    if ((castDistance >= minDistance) && (castDistance <= maxDistance)) {
+    if ((castDistance >= minDistance) && (castDistance <= maxDistance))
+    {
       double rx = ((double)rand() / (RAND_MAX));
       double ry = ((double)rand() / (RAND_MAX));
       double rz = ((double)rand() / (RAND_MAX));
@@ -57,7 +64,8 @@ struct Ray {
   }
 };
 
-struct Lidar {
+struct Lidar
+{
   std::vector<Ray> rays;
   pcl::PointCloud<pcl::PointXYZ>::Ptr cloud;
   std::vector<Car> cars;
@@ -69,7 +77,8 @@ struct Lidar {
   double sderr;
 
   Lidar(std::vector<Car> setCars, double setGroundSlope)
-      : cloud(new pcl::PointCloud<pcl::PointXYZ>()), position(0, 0, 2.6) {
+      : cloud(new pcl::PointCloud<pcl::PointXYZ>()), position(0, 0, 2.6)
+  {
     minDistance = 5.0;
     maxDistance = 50.0;
     resolution = 0.2;
@@ -84,8 +93,10 @@ struct Lidar {
 
     for (double angleVertical = steepestAngle;
          angleVertical < steepestAngle + angleRange;
-         angleVertical += angleIncrement) {
-      for (double angle = 0; angle <= 2 * pi; angle += horizontalAngleInc) {
+         angleVertical += angleIncrement)
+    {
+      for (double angle = 0; angle <= 2 * pi; angle += horizontalAngleInc)
+      {
         Ray ray(position, angle, angleVertical, resolution);
         rays.push_back(ray);
       }
@@ -94,7 +105,8 @@ struct Lidar {
 
   ~Lidar() {}
 
-  pcl::PointCloud<pcl::PointXYZ>::Ptr scan() {
+  pcl::PointCloud<pcl::PointXYZ>::Ptr scan()
+  {
     cloud->points.clear();
     auto startTime = std::chrono::steady_clock::now();
     for (Ray ray : rays)

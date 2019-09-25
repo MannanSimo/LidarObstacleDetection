@@ -6,13 +6,13 @@ template <typename PointT, typename Name>
 Node<PointT, Name>::Node(PointT &data_val, Name id_val)
     : data{std::make_shared<PointT>(data_val)}, id{id_val}
 {
-    std::cout << "Node created: "<< id << std::endl;
+    std::cout << "Node created: " << id << std::endl;
 }
 
 template <typename PointT, typename Name>
 Node<PointT, Name>::~Node()
 {
-    std::cout<< "Node destroyed: " << id << std::endl;
+    std::cout << "Node destroyed: " << id << std::endl;
 }
 
 template <typename PointT, typename Name>
